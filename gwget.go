@@ -1,15 +1,15 @@
 package main
 
 import (
-	"os"
+	"errors"
 	"fmt"
 	"github.com/labstack/gommon/log"
 	"io/ioutil"
-	"strings"
-	"path/filepath"
 	"net/http"
+	"os"
+	"path/filepath"
+	"strings"
 	"time"
-	"errors"
 )
 
 func get(url, filename string) {
@@ -49,20 +49,19 @@ func get(url, filename string) {
 	file.Write(body)
 }
 
-func main () {
+func main() {
 
 	if len(os.Args) < 2 {
 		fmt.Println("Usage:")
-		fmt.Println("   gwget {url} {file}")
-		fmt.Println("       {url} prefix for the download")
-		fmt.Println("       {file} directory list as argument (dir/dir/file format per line, from find)")
-		fmt.Println()
+		fmt.Println("gwget file url")
+		fmt.Println("   url     prefix for the download")
+		fmt.Println("   file    directory list as argument (dir/dir/file format per line, from find)")
 		os.Exit(0)
 	}
 
 	url := os.Args[2]
 
-	f,err := os.Open(os.Args[1])
+	f, err := os.Open(os.Args[1])
 	if err != nil {
 		log.Panic(err)
 	}
@@ -72,16 +71,16 @@ func main () {
 		log.Panic(err)
 	}
 
-	lines := strings.Split(string(b),"\n")
-	for _,fullpath := range lines {
+	lines := strings.Split(string(b), "\n")
+	for _, fullpath := range lines {
 		if _, err := os.Stat(fullpath); os.IsNotExist(err) {
 			dir := filepath.Dir(fullpath)
 			if _, err := os.Stat(dir); os.IsNotExist(err) {
-				os.Mkdir(dir,0777)
-				fmt.Println("Created",dir)
+				os.Mkdir(dir, 0777)
+				fmt.Println("Created", dir)
 			}
 			get(url+fullpath, fullpath)
-			fmt.Println("Downloaded",fullpath)
+			fmt.Println("Downloaded", fullpath)
 		}
 	}
 }

@@ -1,5 +1,9 @@
 # Wget based on file list
 
+[![Documentation](https://godoc.org/github.com/shoobyban/gwget?status.svg)](http://godoc.org/github.com/shoobyban/gwget)
+[![Go Report Card](https://goreportcard.com/badge/github.com/shoobyban/gwget)](https://goreportcard.com/report/github.com/shoobyban/gwget)
+[![Build Status](https://travis-ci.org/ShoobyBan/gwget.svg?branch=master)](https://travis-ci.org/ShoobyBan/gwget)
+
 ## Usage
 
 ```sh
