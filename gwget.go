@@ -3,13 +3,14 @@ package main
 import (
 	"errors"
 	"fmt"
-	"github.com/labstack/gommon/log"
 	"io/ioutil"
 	"net/http"
 	"os"
 	"path/filepath"
 	"strings"
 	"time"
+
+	"github.com/labstack/gommon/log"
 )
 
 func get(url, filename string) {
@@ -76,7 +77,10 @@ func main() {
 		if _, err := os.Stat(fullpath); os.IsNotExist(err) {
 			dir := filepath.Dir(fullpath)
 			if _, err := os.Stat(dir); os.IsNotExist(err) {
-				os.Mkdir(dir, 0777)
+				err := os.MkdirAll(dir, 0777)
+				if err != nil {
+					panic(err)
+				}
 				fmt.Println("Created", dir)
 			}
 			get(url+fullpath, fullpath)
