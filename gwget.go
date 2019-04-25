@@ -62,7 +62,12 @@ func main() {
 
 	url := os.Args[2]
 
-	f, err := os.Open(os.Args[1])
+	fn := os.Args[1]
+	if fn == "-" {
+		fn = "/dev/stdin"
+	}
+
+	f, err := os.Open(fn)
 	if err != nil {
 		log.Panic(err)
 	}
